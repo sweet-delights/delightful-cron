@@ -1,6 +1,17 @@
 import sbt.Keys.javacOptions
-import sbtrelease.ReleaseStateTransformations.{checkSnapshotDependencies, commitNextVersion, commitReleaseVersion, inquireVersions, pushChanges, runClean, runTest, setNextVersion, setReleaseVersion, tagRelease}
-import sbtrelease.{Version, versionFormatError}
+import sbtrelease.ReleaseStateTransformations.{
+  checkSnapshotDependencies,
+  commitNextVersion,
+  commitReleaseVersion,
+  inquireVersions,
+  pushChanges,
+  runClean,
+  runTest,
+  setNextVersion,
+  setReleaseVersion,
+  tagRelease
+}
+import sbtrelease.{versionFormatError, Version}
 
 import java.util.regex.Pattern
 

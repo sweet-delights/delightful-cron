@@ -60,3 +60,6 @@ object Cron:
       if (!termsValid(DayOfWeek.range)(dows)) throw IllegalArgumentException("Invalid day of week specification")
 
       cron
+
+  extension (s: String)
+    def toCron: CronExpr = Cron(s)
