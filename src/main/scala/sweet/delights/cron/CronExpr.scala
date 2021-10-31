@@ -18,6 +18,15 @@ import java.time.LocalDateTime
 
 sealed abstract class CronExpr:
 
+  def hasHash: Boolean = this match
+    case CronExpr.Reboot | CronExpr.Manual => false
+    case CronExpr.CronSpec(minutes, hours, days, months, dows) =>
+      minutes.exists(_.hasHash)
+        || hours.exists(_.hasHash)
+        || days.exists(_.hasHash)
+        || months.exists(_.hasHash)
+        || dows.exists(_.hasHash)
+
   def matches(ldt: LocalDateTime, hashCode: Int = 0): Boolean = this match
     case CronExpr.Reboot | CronExpr.Manual => true
     case CronExpr.CronSpec(minutes, hours, days, months, dows) =>

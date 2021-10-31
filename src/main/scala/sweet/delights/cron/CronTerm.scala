@@ -22,7 +22,11 @@ case class CronTerm(
                         token: Option[CronToken],
                         range: Range
                       ):
-  
+
+  def hasHash: Boolean = token match
+    case Some(CronToken.Hash) => true
+    case _ => false
+
   def matches(i: Int, hashCode: Int = 0): Boolean = this match
     case CronTerm(Some(CronToken.Hash), range) =>
       withHash(hashCode).matches(i)

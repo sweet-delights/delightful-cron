@@ -155,5 +155,10 @@ class CronSpec extends AnyWordSpec with Matchers with ScalaCheckPropertyChecks {
       Cron("H(12-22)/5 0 0 1 0").withHash("foo") shouldBe Cron("12 0 0 1 0")
       Cron("* * * * *").withHash("foo") shouldBe Cron("* * * * *")
     }
+
+    "detect hashes" in {
+      Cron("H 0 0 1 0").hasHash shouldBe true
+      Cron("0 0 0 1 0").hasHash shouldBe false
+    }
   }
 }
