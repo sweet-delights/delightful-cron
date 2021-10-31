@@ -20,7 +20,7 @@ val dottyVersion = "3.0.0"
 lazy val root = project
   .in(file("."))
   .settings(
-    organization := "sweet.delights",
+    organization := "org.sweet-delights",
     name := "delightful-cron",
     homepage := Option(url("https://github.com/sweet-delights/delightful-cron")),
     licenses := List("GNU Lesser General Public License Version 3" -> url("https://www.gnu.org/licenses/lgpl-3.0.txt")),
