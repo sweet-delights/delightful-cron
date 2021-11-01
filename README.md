@@ -62,13 +62,13 @@ Either way, the cron spec is evaluated to `"54 12 * * *"`.
 
 Example making a `curl` call for cron spec `H H * * *` and hash `foo`:
 ```bash
-% curl -G --data-urlencode 'cron=H H * * *' --data-urlencode 'hash=foo' 'https://delightful-cron.azurewebsites.net/api/delightful-cron'
+% curl -G --data-urlencode 'cron=H H * * *' --data-urlencode 'hash=foo' 'https://sweet-delights.azurewebsites.net/api/delightful-cron'
 54 6 * * *
 ```
 
 Example with an integer hash:
 ```bash
-% curl -G --data-urlencode 'cron=H H * * *' --data-urlencode 'hash=1234567890' 'https://delightful-cron.azurewebsites.net/api/delightful-cron'
+% curl -G --data-urlencode 'cron=H H * * *' --data-urlencode 'hash=1234567890' 'https://sweet-delights.azurewebsites.net/api/delightful-cron'
 30 18 * * *
 ```
 
