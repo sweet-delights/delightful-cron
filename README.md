@@ -54,6 +54,24 @@ val quartz = "H 12 * * *".toCron.withHash(101574)
 
 Either way, the cron spec is evaluated to `"54 12 * * *"`.
 
+### REST API
+
+`delightful-cron` is available as a REST API, with two mandatory parameters:
+- `cron`: a cron specification
+- `hash`: either a integer between -2147483648 and 2147483647 or a string
+
+Example making a `curl` call for cron spec `H H * * *` and hash `foo`:
+```bash
+% curl -G --data-urlencode 'cron=H H * * *' --data-urlencode 'hash=foo' 'https://delightful-cron.azurewebsites.net/api/delightful-cron'
+54 6 * * *
+```
+
+Example with an integer hash:
+```bash
+% curl -G --data-urlencode 'cron=H H * * *' --data-urlencode 'hash=1234567890' 'https://delightful-cron.azurewebsites.net/api/delightful-cron'
+30 18 * * *
+```
+
 ## [License](LICENSE.md)
 
 All files in `delightful-cron` are under the GNU Lesser General Public License version 3.
