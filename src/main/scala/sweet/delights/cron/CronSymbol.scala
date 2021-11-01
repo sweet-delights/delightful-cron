@@ -14,16 +14,16 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package sweet.delights.cron
 
-enum CronToken:
+enum CronSymbol:
   case Hash
   case Wildcard
 
-object CronToken:
-  def apply(s: String): CronToken = unapply(s).getOrElse {
+object CronSymbol:
+  def apply(s: String): CronSymbol = unapply(s).getOrElse {
     throw IllegalArgumentException(s"""Invalid CronExpr "${s}"""")
   }
 
-  def unapply(s: String): Option[CronToken] = s match
+  def unapply(s: String): Option[CronSymbol] = s match
     case "H" => Some(Hash)
     case "*" => Some(Wildcard)
     case _ => None

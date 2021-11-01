@@ -17,26 +17,26 @@ package sweet.delights.cron
 import java.time.{LocalDateTime, MonthDay}
 import scala.reflect.ClassTag
 import scala.util.Try
-  
-case class CronTerm(
-                        token: Option[CronToken],
-                        range: Range
-                      ):
 
-  def hasHash: Boolean = token match
-    case Some(CronToken.Hash) => true
+case class CronTerm(
+  symbol: Option[CronSymbol],
+  range: Range
+):
+
+  def hasHash: Boolean = symbol match
+    case Some(CronSymbol.Hash) => true
     case _ => false
 
   def matches(i: Int, hashCode: Int = 0): Boolean = this match
-    case CronTerm(Some(CronToken.Hash), range) =>
+    case CronTerm(Some(CronSymbol.Hash), range) =>
       withHash(hashCode).matches(i)
 
     case CronTerm(_, range) =>
       range.contains(i)
 
   def withHash(hashCode: Int | String): CronTerm = this match
-    case CronTerm(None, _) | CronTerm(Some(CronToken.Wildcard), _) => this
-    case CronTerm(Some(CronToken.Hash), range) =>
+    case CronTerm(None, _) | CronTerm(Some(CronSymbol.Wildcard), _) => this
+    case CronTerm(Some(CronSymbol.Hash), range) =>
       if (range.size == 1) CronTerm(None, range)
       else
         val h = hashCode match
@@ -53,14 +53,14 @@ case class CronTerm(
   def withRange(start: Int = range.start, end: Int = range.end, step: Int = range.step) =
     this.copy(range = start to end by step)
 
-  private[cron] def toString(orig: Range): String = token match
-    case Some(CronToken.Hash) =>
+  private[cron] def toString(orig: Range): String = symbol match
+    case Some(CronSymbol.Hash) =>
       if (range == orig) "H"
       else if (range.start == orig.end) s"H/${range.step}"
       else if (range.step == orig.step) s"H(${range.start}-${range.end})"
       else s"H(${range.start}-${range.end})/${range.step}"
 
-    case Some(CronToken.Wildcard) =>
+    case Some(CronSymbol.Wildcard) =>
       if (range.step == orig.step) "*"
       else s"*/${range.step}"
 
@@ -70,12 +70,11 @@ case class CronTerm(
 
       s"${rng}${stp}"
 
-  
-type Minute = Int | CronToken
-type Hour = Int | CronToken
-type Day = Int | CronToken
-type Month = Int | CronToken
-type DayOfWeek = Int | CronToken
+type Minute = Int | CronSymbol
+type Hour = Int | CronSymbol
+type Day = Int | CronSymbol
+type Month = Int | CronSymbol
+type DayOfWeek = Int | CronSymbol
 
 object CronTerm:
   def ofMinute(v: Minute): CronTerm = of[Minute](v, Minute.range)
@@ -83,12 +82,12 @@ object CronTerm:
   def ofDay(v: Minute): CronTerm = of[Day](v, Day.range)
   def ofMonth(v: Hour): CronTerm = of[Month](v, Month.range)
   def ofDow(v: DayOfWeek): CronTerm = of[DayOfWeek](v, DayOfWeek.range)
-  
+
   private def of[T](v: T, default: Range): CronTerm = v match
     case i: Int => CronTerm(None, i to i)
-    case t: CronToken => CronTerm(Some(t), default)
+    case t: CronSymbol => CronTerm(Some(t), default)
 
-trait CronProperties[T : ClassTag]:
+trait CronProperties[T: ClassTag]:
   def range: Range
   def check(i: Int): Boolean = range.contains(i)
 

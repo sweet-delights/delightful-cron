@@ -38,13 +38,14 @@ sealed abstract class CronExpr:
   def withHash(hashCode: Int | String): CronExpr = this match
     case CronExpr.Reboot => this
     case CronExpr.Manual => this
-    case CronExpr.CronSpec(minutes, hours, days, months, dows) => CronExpr.CronSpec(
-      minutes.map(_.withHash(hashCode)),
-      hours.map(_.withHash(hashCode)),
-      days.map(_.withHash(hashCode)),
-      months.map(_.withHash(hashCode)),
-      dows.map(_.withHash(hashCode))
-    )
+    case CronExpr.CronSpec(minutes, hours, days, months, dows) =>
+      CronExpr.CronSpec(
+        minutes.map(_.withHash(hashCode)),
+        hours.map(_.withHash(hashCode)),
+        days.map(_.withHash(hashCode)),
+        months.map(_.withHash(hashCode)),
+        dows.map(_.withHash(hashCode))
+      )
 
   override def toString: String = this match
     case CronExpr.Reboot => "@reboot"
@@ -62,9 +63,9 @@ object CronExpr:
   case object Reboot extends CronExpr
   case object Manual extends CronExpr
   case class CronSpec(
-                       minutes: List[CronTerm],
-                       hours: List[CronTerm],
-                       days: List[CronTerm],
-                       months: List[CronTerm],
-                       dows: List[CronTerm]
-                     ) extends CronExpr
+    minutes: List[CronTerm],
+    hours: List[CronTerm],
+    days: List[CronTerm],
+    months: List[CronTerm],
+    dows: List[CronTerm]
+  ) extends CronExpr

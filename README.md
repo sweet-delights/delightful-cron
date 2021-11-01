@@ -2,7 +2,7 @@
 [![Maven Central](https://img.shields.io/maven-central/v/org.sweet-delights/delightful-cron_3.svg)](https://maven-badges.herokuapp.com/maven-central/org.sweet-delights/delightful-cron_3)
 
 `delightful-cron` is a library for parsing [Jenkins-like cron specifications](https://www.jenkins.io/doc/book/pipeline/syntax/#cron-syntax)
-with the symbol `H` (Hash). It is able to compile such cron specs to [Quartz](http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html) -compatble syntax.
+with the symbol `H` (Hash). It is able to compile such cron specs to a normalized form, compatible with [crontab.guru](https://crontab.guru/) 's syntax.
 
 ## Quick Start
 
@@ -10,7 +10,7 @@ with the symbol `H` (Hash). It is able to compile such cron specs to [Quartz](ht
 
 In `build.sbt`, add:
 ```scala
-libraryDependencies += "org.sweet-delights" %% "delightful-cron" % "0.0.1"
+libraryDependencies += "org.sweet-delights" %% "delightful-cron" % "0.1.1"
 ```
 
 ### Maven
@@ -31,7 +31,7 @@ Here is how to parse cron specifications or manually create one:
 ```scala
 import sweet.delights.cron.Cron
 import sweet.delights.cron.Cron._
-import sweet.delights.cron.CronToken.{Hash => H, Wildcard => `*`}
+import sweet.delights.cron.CronSymbol.{Hash => H, Wildcard => `*`}
 
 val cron = "H 12 * * *".toCron
 // or
@@ -40,16 +40,16 @@ val cron = Cron("H 12 * * *")
 val cron = Cron(H, 12, `*`, `*`, `*`)
 ```
 
-### Apply hash value / convert to Quartz
+### Apply hash value / convert to normalized form
 
-In order to convert to Quartz, provide a hash value to be applied. A hash can be either a `String` or an `Int`: 
+In order to convert to a normalized form, provide a hash value to be applied. A hash can be either a `String` or an `Int`: 
 
 ```scala
 import sweet.delights.cron.Cron
 
-val quartz = "H 12 * * *".toCron.withHash("foo")
+val normalized = "H 12 * * *".toCron.withHash("foo")
 // or
-val quartz = "H 12 * * *".toCron.withHash(101574)
+val normalized = "H 12 * * *".toCron.withHash(101574)
 ```
 
 Either way, the cron spec is evaluated to `"54 12 * * *"`.

@@ -34,7 +34,7 @@ lazy val root = project
         url = url("https://github.com/pgrandjean")
       )
     ),
-    scalaVersion := "3.0.2",
+    scalaVersion := "3.1.0",
     libraryDependencies ++= Seq(
       // "sweet.delights" %% "delightful-extractors" % "0.0.2-SNAPSHOT",
       "org.scala-lang.modules" %% "scala-parser-combinators" % "2.1.0",
@@ -44,7 +44,6 @@ lazy val root = project
     ),
     scalacOptions ++= Seq(
       "-deprecation",
-      "-target:jvm-1.8",
       "-feature"
     ),
     Compile / javacOptions ++= Seq(
