@@ -50,7 +50,13 @@ sealed abstract class CronExpr:
     case CronExpr.Reboot => "@reboot"
     case CronExpr.Manual => "@manual"
     case CronExpr.CronSpec(minutes, hours, days, months, dows) =>
-      s"${minutes.mkString(",")} ${hours.mkString(",")} ${days.mkString(",")} ${months.mkString(",")} ${dows.mkString(",")}"
+      val m = minutes.map(_.toString(Minute.range)).mkString(",")
+      val h = hours.map(_.toString(Hour.range)).mkString(",")
+      val d = days.map(_.toString(Day.range)).mkString(",")
+      val mo = months.map(_.toString(Month.range)).mkString(",")
+      val dw = dows.map(_.toString(DayOfWeek.range)).mkString(",")
+
+      s"${m} ${h} ${d} ${mo} ${dw}"
 
 object CronExpr:
   case object Reboot extends CronExpr

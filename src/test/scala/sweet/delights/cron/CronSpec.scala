@@ -18,6 +18,7 @@ import java.time.{LocalDate, LocalDateTime, LocalTime}
 import org.scalacheck.Arbitrary
 import org.scalacheck.Gen
 import org.scalacheck.Prop.{forAll, forAllNoShrink, throws}
+import org.scalacheck.Shrink
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
@@ -29,7 +30,11 @@ import scala.util.Try
 class CronSpec extends AnyWordSpec with Matchers with ScalaCheckPropertyChecks {
 
   lazy val epoch = LocalDateTime.of(LocalDate.ofEpochDay(0), LocalTime.MIDNIGHT)
-  
+
+  lazy val minListSize = 1
+
+  lazy val maxListSize = 5
+
   val genLocalDateTime = for {
     rand <- Gen.choose(0, Int.MaxValue)
   } yield epoch.plusMinutes(rand)
@@ -66,11 +71,11 @@ class CronSpec extends AnyWordSpec with Matchers with ScalaCheckPropertyChecks {
   val genReboot = Gen.const((CronExpr.Reboot, "@reboot"))
   val genManual = Gen.const((CronExpr.Manual, "@manual"))
   val genCronSpec = for {
-    minutes <- Gen.nonEmptyListOf(genMinute)
-    hours <- Gen.nonEmptyListOf(genHour)
-    days <- Gen.nonEmptyListOf(genDay)
-    months <- Gen.nonEmptyListOf(genMonth)
-    dows <- Gen.nonEmptyListOf(genDow)
+    minutes <- Gen.listOfN(maxListSize, genMinute).suchThat(_.size >= minListSize)
+    hours <- Gen.listOfN(maxListSize, genHour).suchThat(_.size >= minListSize)
+    days <- Gen.listOfN(maxListSize, genDay).suchThat(_.size >= minListSize)
+    months <- Gen.listOfN(maxListSize, genMonth).suchThat(_.size >= minListSize)
+    dows <- Gen.listOfN(maxListSize, genDow).suchThat(_.size >= minListSize)
   } yield {
     (
       CronExpr.CronSpec(
@@ -91,7 +96,9 @@ class CronSpec extends AnyWordSpec with Matchers with ScalaCheckPropertyChecks {
   }
   
   val genCronExpr = Gen.oneOf(genReboot, genManual, genCronSpec)
-  
+
+  implicit val noShrinking: Shrink[(CronExpr, String)] = Shrink(_ => Stream.empty)
+
   "Cron" should {
     "parse predefined specs" in {
       Cron("@yearly") shouldBe Cron.yearly
@@ -114,8 +121,7 @@ class CronSpec extends AnyWordSpec with Matchers with ScalaCheckPropertyChecks {
     }
 
     "parse random cron spec" in {
-      forAllNoShrink(genCronExpr) { case (term, str) =>
-        println("term = " + term + "\nstr  = " + str)
+      forAll(genCronExpr) { case (term, str) =>
         Cron(str) === term
       }
     }
@@ -159,6 +165,13 @@ class CronSpec extends AnyWordSpec with Matchers with ScalaCheckPropertyChecks {
     "detect hashes" in {
       Cron("H 0 0 1 0").hasHash shouldBe true
       Cron("0 0 0 1 0").hasHash shouldBe false
+    }
+
+    "stringify" in {
+      forAll(genCronExpr) { case (term, str) =>
+        println(str)
+        Cron(str).toString === str
+      }
     }
   }
 }
