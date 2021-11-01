@@ -53,16 +53,22 @@ case class CronTerm(
   def withRange(start: Int = range.start, end: Int = range.end, step: Int = range.step) =
     this.copy(range = start to end by step)
 
-  override def toString: String =
-    val tok = token match
-      case Some(CronToken.Hash) => "H"
-      case Some(CronToken.Wildcard) => "*"
-      case None => ""
+  private[cron] def toString(orig: Range): String = token match
+    case Some(CronToken.Hash) =>
+      if (range == orig) "H"
+      else if (range.start == orig.end) s"H/${range.step}"
+      else if (range.step == orig.step) s"H(${range.start}-${range.end})"
+      else s"H(${range.start}-${range.end})/${range.step}"
 
-    val rng = if (tok.isEmpty && range.start == range.end) s"${range.start}" else s"(${range.start}-${range.end})"
-    val stp = if (range.step == 1) "" else s"/${range.step}"
-    
-    s"${tok}${rng}${stp}"
+    case Some(CronToken.Wildcard) =>
+      if (range.step == orig.step) "*"
+      else s"*/${range.step}"
+
+    case None =>
+      val rng = if (range.start == range.end) s"${range.start}" else s"(${range.start}-${range.end})"
+      val stp = if (range.step == 1) "" else s"/${range.step}"
+
+      s"${rng}${stp}"
 
   
 type Minute = Int | CronToken
