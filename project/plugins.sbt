@@ -1,4 +1,4 @@
-addSbtPlugin("org.scalameta"  % "sbt-scalafmt"    % "2.4.5")
+addSbtPlugin("org.scalameta"  % "sbt-scalafmt"    % "2.4.6")
 addSbtPlugin("com.lucidchart" % "sbt-cross"       % "4.0")
 addSbtPlugin("com.github.sbt" % "sbt-release"     % "1.1.0")
 addSbtPlugin("org.scala-sbt"  % "sbt-autoversion" % "1.0.0")
