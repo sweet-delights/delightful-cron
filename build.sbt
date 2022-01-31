@@ -40,7 +40,7 @@ lazy val root = project
       "org.scala-lang.modules" %% "scala-parser-combinators" % "2.1.0",
       "org.scalatest"          %% "scalatest-shouldmatchers" % "3.2.11"   % "test",
       "org.scalatest"          %% "scalatest-wordspec"       % "3.2.11"   % "test",
-      "org.scalatestplus"      %% "scalacheck-1-15"          % "3.2.10.0" % "test"
+      "org.scalatestplus"      %% "scalacheck-1-15"          % "3.2.11.0" % "test"
     ),
     scalacOptions ++= Seq(
       "-deprecation",
