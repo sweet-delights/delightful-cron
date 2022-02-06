@@ -22,18 +22,18 @@ sealed abstract class CronExpr:
     case CronExpr.Reboot | CronExpr.Manual => false
     case CronExpr.CronSpec(minutes, hours, days, months, dows) =>
       minutes.exists(_.hasHash)
-        || hours.exists(_.hasHash)
-        || days.exists(_.hasHash)
-        || months.exists(_.hasHash)
-        || dows.exists(_.hasHash)
+      || hours.exists(_.hasHash)
+      || days.exists(_.hasHash)
+      || months.exists(_.hasHash)
+      || dows.exists(_.hasHash)
 
   def matches(ldt: LocalDateTime, hashCode: Int = 0): Boolean = this match
     case CronExpr.Reboot | CronExpr.Manual => true
     case CronExpr.CronSpec(minutes, hours, days, months, dows) =>
       minutes.exists(_.matches(ldt.getMinute, hashCode))
-        && hours.exists(_.matches(ldt.getHour, hashCode))
-        && (days.exists(_.matches(ldt.getDayOfMonth, hashCode)) || dows.exists(_.matches(ldt.getDayOfWeek.getValue, hashCode)))
-        && months.exists(_.matches(ldt.getMonthValue, hashCode))
+      && hours.exists(_.matches(ldt.getHour, hashCode))
+      && (days.exists(_.matches(ldt.getDayOfMonth, hashCode)) || dows.exists(_.matches(ldt.getDayOfWeek.getValue, hashCode)))
+      && months.exists(_.matches(ldt.getMonthValue, hashCode))
 
   def withHash(hashCode: Int | String): CronExpr = this match
     case CronExpr.Reboot => this
