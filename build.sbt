@@ -37,7 +37,7 @@ lazy val root = project
     scalaVersion := "3.1.1",
     libraryDependencies ++= Seq(
       // "sweet.delights" %% "delightful-extractors" % "0.0.2-SNAPSHOT",
-      "org.scala-lang.modules" %% "scala-parser-combinators" % "2.1.0",
+      "org.scala-lang.modules" %% "scala-parser-combinators" % "2.1.1",
       "org.scalatest"          %% "scalatest-shouldmatchers" % "3.2.11"   % "test",
       "org.scalatest"          %% "scalatest-wordspec"       % "3.2.11"   % "test",
       "org.scalatestplus"      %% "scalacheck-1-15"          % "3.2.11.0" % "test"
