@@ -98,7 +98,7 @@ object Hour extends CronProperties[Hour]:
   lazy val range = 0 to 23
 
 object Day extends CronProperties[Day]:
-  lazy val range = 0 to 31
+  lazy val range = 1 to 31
   def checkWithMonth(i: Int, month: java.time.Month): Boolean = Try(MonthDay.of(month, i)).isSuccess
 
 object Month extends CronProperties[Month]:

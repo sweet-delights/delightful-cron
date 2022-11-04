@@ -15,8 +15,6 @@ import sbtrelease.{versionFormatError, Version}
 
 import java.util.regex.Pattern
 
-val dottyVersion = "3.0.0"
-
 lazy val root = project
   .in(file("."))
   .settings(

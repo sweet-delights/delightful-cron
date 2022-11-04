@@ -153,16 +153,16 @@ class CronSpec extends AnyWordSpec with Matchers with ScalaCheckPropertyChecks:
     }
 
     "replace Hash symbol with actual value" in {
-      Cron("H H H H H").withHash("foo") shouldBe Cron("54 6 6 7 6")
-      Cron("H/5 0 0 1 0").withHash("foo") shouldBe Cron("55 0 0 1 0")
-      Cron("H(12-15) 0 0 1 0").withHash("foo") shouldBe Cron("14 0 0 1 0")
-      Cron("H(12-22)/5 0 0 1 0").withHash("foo") shouldBe Cron("12 0 0 1 0")
+      Cron("H H H H H").withHash("foo") shouldBe Cron("54 6 19 7 6")
+      Cron("H/5 0 1 1 0").withHash("foo") shouldBe Cron("55 0 1 1 0")
+      Cron("H(12-15) 0 1 1 0").withHash("foo") shouldBe Cron("14 0 1 1 0")
+      Cron("H(12-22)/5 0 1 1 0").withHash("foo") shouldBe Cron("12 0 1 1 0")
       Cron("* * * * *").withHash("foo") shouldBe Cron("* * * * *")
     }
 
     "detect hashes" in {
-      Cron("H 0 0 1 0").hasHash shouldBe true
-      Cron("0 0 0 1 0").hasHash shouldBe false
+      Cron("H 0 1 1 0").hasHash shouldBe true
+      Cron("0 0 1 1 0").hasHash shouldBe false
     }
 
     "stringify" in {
