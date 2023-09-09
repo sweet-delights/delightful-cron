@@ -32,7 +32,7 @@ lazy val root = project
         url = url("https://github.com/pgrandjean")
       )
     ),
-    scalaVersion := "3.3.0",
+    scalaVersion := "3.3.1",
     libraryDependencies ++= Seq(
       // "sweet.delights" %% "delightful-extractors" % "0.0.2-SNAPSHOT",
       "org.scala-lang.modules" %% "scala-parser-combinators" % "2.3.0",
