@@ -167,7 +167,6 @@ class CronSpec extends AnyWordSpec with Matchers with ScalaCheckPropertyChecks:
 
     "stringify" in {
       forAll(genCronExpr) { case (term, str) =>
-        println(str)
         Cron(str).toString === str
       }
     }

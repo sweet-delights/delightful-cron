@@ -40,7 +40,6 @@ object Cron:
     def toList[T: ClassTag](v: T | CronTerm, of: T => CronTerm): List[CronTerm] = v match
       case c: CronTerm => c :: Nil
       case t: T => of(t) :: Nil
-      case _ => throw IllegalArgumentException(s"Unknown type")
 
     CronExpr.CronSpec(
       toList[Minute](minute, CronTerm.ofMinute),
