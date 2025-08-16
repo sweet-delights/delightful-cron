@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/sweet-delights/delightful-cron.svg?branch=master)](https://travis-ci.com/sweet-delights/delightful-cron)
+[![Build Status](https://github.com/sweet-delights/delightful-cron/actions/workflows/scala.yml/badge.svg)](https://github.com/sweet-delights/delightful-cron/actions/workflows/scala.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/org.sweet-delights/delightful-cron_3.svg)](https://maven-badges.herokuapp.com/maven-central/org.sweet-delights/delightful-cron_3)
 
 `delightful-cron` is a library for parsing [Jenkins-like cron specifications](https://www.jenkins.io/doc/book/pipeline/syntax/#cron-syntax)
